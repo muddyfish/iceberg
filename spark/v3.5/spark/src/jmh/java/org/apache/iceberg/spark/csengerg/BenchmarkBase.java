@@ -20,7 +20,7 @@ package org.apache.iceberg.spark.csengerg;
 
 public class BenchmarkBase {
 
-  private BenchmarkBase() {}
+  protected BenchmarkBase() {}
 
   private static final String SNIP = "<snip>";
   protected static final String S3_BUCKET = SNIP;

@@ -19,7 +19,6 @@
 package org.apache.iceberg.spark.csengerg;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import org.apache.iceberg.Schema;
 import org.apache.iceberg.aws.s3.S3AsyncFileIO;
@@ -27,6 +26,7 @@ import org.apache.iceberg.aws.s3.S3FileIO;
 import org.apache.iceberg.io.CloseableIterable;
 import org.apache.iceberg.io.InputFile;
 import org.apache.iceberg.parquet.Parquet;
+import org.apache.iceberg.relocated.com.google.common.collect.Lists;
 import org.apache.iceberg.spark.data.SparkParquetReaders;
 import org.apache.iceberg.types.Types;
 import org.apache.spark.sql.catalyst.InternalRow;
@@ -53,7 +53,7 @@ import software.amazon.awssdk.services.s3.S3Client;
 public class S3ParquetReadBenchmark extends BenchmarkBase {
 
   private Schema getSchema() {
-    List<Types.NestedField> schema = new ArrayList<>();
+    List<Types.NestedField> schema = Lists.newArrayList();
 
     schema.add(Types.NestedField.required(1, "c0", Types.IntegerType.get()));
     schema.add(Types.NestedField.required(2, "c1", Types.IntegerType.get()));
@@ -102,7 +102,7 @@ public class S3ParquetReadBenchmark extends BenchmarkBase {
     "single_col_random__512mb_row_group_100m_rows.parquet",
     "single_col_random__512mb_row_group_10k_rows.parquet",
     "single_col_random__512mb_row_group_10m_rows.parquet",
-    "single_col_random__512mb_row_group_1m_rows.parquet",
+    "single_col_random__512mb_row_group_1m_rows.parquet"
   })
   private String key;
 
