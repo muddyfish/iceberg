@@ -63,6 +63,12 @@ public class S3SequentialReadBenchmark extends BenchmarkBase {
   })
   private String key;
 
+  @Param({
+          "simobeal-s3fileio",
+          "simobeal-s3fileio--eun1-az1--x-s3"
+  })
+  private String bucket;
+
   private String sync__readObjectFully(String s3Uri) {
     S3Client s3 = S3Client.builder().region(Region.EU_WEST_1).build();
 
@@ -137,6 +143,6 @@ public class S3SequentialReadBenchmark extends BenchmarkBase {
   }
 
   private String getS3Path() {
-    return "s3://" + S3_BUCKET + "/iceberg/" + key;
+    return "s3://" + bucket + "/iceberg/" + key;
   }
 }

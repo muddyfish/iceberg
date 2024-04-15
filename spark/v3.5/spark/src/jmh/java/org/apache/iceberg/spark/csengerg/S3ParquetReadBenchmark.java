@@ -106,6 +106,12 @@ public class S3ParquetReadBenchmark extends BenchmarkBase {
   })
   private String key;
 
+  @Param({
+    "simobeal-s3fileio",
+    "simobeal-s3fileio--eun1-az1--x-s3"
+  })
+  private String bucket;
+
   private void consumeParquet(InputFile inputFile, Blackhole blackHole) throws IOException {
     Schema schema = getSchema();
 
@@ -124,7 +130,7 @@ public class S3ParquetReadBenchmark extends BenchmarkBase {
   @Threads(1)
   @Benchmark
   public void sync_ParquetSeqRead(Blackhole blackHole) throws IOException {
-    S3Client s3 = S3Client.builder().region(Region.EU_WEST_1).build();
+    S3Client s3 = S3Client.builder().region(Region.EU_NORTH_1).build();
 
     try (S3FileIO s3FileIO = new S3FileIO(() -> s3)) {
       InputFile inputFile = s3FileIO.newInputFile(getS3Uri());
@@ -132,31 +138,31 @@ public class S3ParquetReadBenchmark extends BenchmarkBase {
     }
   }
 
-  @Threads(1)
-  @Benchmark
-  public void async_ParquetSeqRead(Blackhole blackHole) throws IOException {
-    S3AsyncClient s3 = S3AsyncClient.builder().region(Region.EU_WEST_1).build();
-
-    try (S3AsyncFileIO s3FileIO = new S3AsyncFileIO(() -> s3)) {
-      InputFile inputFile = s3FileIO.newInputFile(getS3Uri());
-      consumeParquet(inputFile, blackHole);
-    }
-  }
-
-  @Threads(1)
-  @Benchmark
-  public void s3crt_ParquetSeqRead(Blackhole blackHole) throws IOException {
-    S3AsyncClient s3 = S3AsyncClient.crtBuilder().region(Region.EU_WEST_1).build();
-
-    try (S3AsyncFileIO s3FileIO = new S3AsyncFileIO(() -> s3)) {
-      InputFile inputFile = s3FileIO.newInputFile(getS3Uri());
-      consumeParquet(inputFile, blackHole);
-    }
-  }
+//  @Threads(1)
+//  @Benchmark
+//  public void async_ParquetSeqRead(Blackhole blackHole) throws IOException {
+//    S3AsyncClient s3 = S3AsyncClient.builder().region(Region.EU_NORTH_1).build();
+//
+//    try (S3AsyncFileIO s3FileIO = new S3AsyncFileIO(() -> s3)) {
+//      InputFile inputFile = s3FileIO.newInputFile(getS3Uri());
+//      consumeParquet(inputFile, blackHole);
+//    }
+//  }
+//
+//  @Threads(1)
+//  @Benchmark
+//  public void s3crt_ParquetSeqRead(Blackhole blackHole) throws IOException {
+//    S3AsyncClient s3 = S3AsyncClient.crtBuilder().region(Region.EU_NORTH_1).build();
+//
+//    try (S3AsyncFileIO s3FileIO = new S3AsyncFileIO(() -> s3)) {
+//      InputFile inputFile = s3FileIO.newInputFile(getS3Uri());
+//      consumeParquet(inputFile, blackHole);
+//    }
+//  }
 
   private static final String PREFIX = "/parquet-entitlement/";
 
   private String getS3Uri() {
-    return "s3://" + S3_BUCKET + PREFIX + key;
+    return "s3://" + bucket + PREFIX + key;
   }
 }

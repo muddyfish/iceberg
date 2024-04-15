@@ -23,13 +23,8 @@ public class BenchmarkBase {
   protected BenchmarkBase() {}
 
   private static final String SNIP = "<snip>";
-  protected static final String S3_BUCKET = SNIP;
 
   static {
-    System.setProperty("aws.region", "eu-west-1");
-
-    if (S3_BUCKET.equals(SNIP)) {
-      throw new RuntimeException("Provide your S3 bucket here.");
-    }
+    System.setProperty("aws.region", "eu-north-1");
   }
 }
